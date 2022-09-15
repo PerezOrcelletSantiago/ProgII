@@ -13,13 +13,19 @@ namespace AppFacultad
         string cadena = @"Data Source=NOTESANTI;Initial Catalog=Facultad;Integrated Security=True";
         SqlConnection conexion;
         SqlCommand comando;
-
-        public AccesoDatos()
+        private static AccesoDatos instace;
+        private AccesoDatos()
         {
             conexion = new SqlConnection(cadena);
             comando = new SqlCommand();
         }
 
+        public static AccesoDatos ObtenerInstancia()
+        {
+            if (instace == null)
+                instace = new AccesoDatos();
+            return instace;
+        }
         private void Conectar()
         {
             conexion.Open();

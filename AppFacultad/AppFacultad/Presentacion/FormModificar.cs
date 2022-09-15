@@ -12,13 +12,10 @@ namespace AppFacultad.Presentacion
 {
     public partial class FormModificar : Form
     {
-        AccesoDatos oDB;
         Carreraa unaCarrera;
-        int x;
         public FormModificar()
         {
             InitializeComponent();
-            oDB = new AccesoDatos();
             unaCarrera = new Carreraa();
         }
 
@@ -33,7 +30,7 @@ namespace AppFacultad.Presentacion
         private void CargarDgvDetalles(int x)
         {
             dgvDetalles.Rows.Clear();
-            DataTable tabla = oDB.selectSQL2("SP_CargarDetalles",x);
+            DataTable tabla = AccesoDatos.ObtenerInstancia().selectSQL2("SP_CargarDetalles",x);
             foreach (DataRow fila in tabla.Rows)
             {
                 dgvDetalles.Rows.Add(fila["id"], fila["asignatura"], fila["anio_cursado"], fila["cuatrimestre"]);
@@ -51,7 +48,7 @@ namespace AppFacultad.Presentacion
 
         private void CargarComboCar()
         {
-            DataTable tabla = oDB.selectSQL("SP_ComboCarreras");
+            DataTable tabla = AccesoDatos.ObtenerInstancia().selectSQL("SP_ComboCarreras");
             cboCarrera.DataSource = tabla;
             cboCarrera.DisplayMember = "nombre";
             cboCarrera.ValueMember = "cod_carrera";
@@ -60,7 +57,7 @@ namespace AppFacultad.Presentacion
 
         private void CargarComboAsg()
         {
-            DataTable tabla = oDB.selectSQL("SP_ComboAsignaturas");
+            DataTable tabla = AccesoDatos.ObtenerInstancia().selectSQL("SP_ComboAsignaturas");
             cboAsignatura.DataSource = tabla;
             cboAsignatura.DisplayMember = "nombre";
             cboAsignatura.ValueMember = "cod_materia";
@@ -134,7 +131,7 @@ namespace AppFacultad.Presentacion
         private void btnGuardarDetalles_Click(object sender, EventArgs e)
         {
             unaCarrera.pCodigo = Convert.ToInt32(cboCarrera.SelectedValue);
-            oDB.UpdateDetalle(unaCarrera, "SP_DeleteDetalle", "SP_InsertarDetalle");
+            AccesoDatos.ObtenerInstancia().UpdateDetalle(unaCarrera, "SP_DeleteDetalle", "SP_InsertarDetalle");
             MessageBox.Show("Detalles modificados exitosamente", "INFORMACION", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

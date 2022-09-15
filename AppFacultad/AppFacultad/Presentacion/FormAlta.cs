@@ -12,12 +12,10 @@ namespace AppFacultad
 {
     public partial class FormAlta : Form
     {
-        AccesoDatos oDB;
         Carreraa nvaCarrera;
         public FormAlta()
         {
             InitializeComponent();
-            oDB = new AccesoDatos();
             nvaCarrera = new Carreraa();
         }
 
@@ -30,7 +28,7 @@ namespace AppFacultad
 
         private void CargarCombo()
         {
-            DataTable tabla = oDB.selectSQL("SP_ComboAsignaturas");
+            DataTable tabla = AccesoDatos.ObtenerInstancia().selectSQL("SP_ComboAsignaturas");
             cboAsignatura.DataSource = tabla;
             cboAsignatura.DisplayMember = "nombre";
             cboAsignatura.ValueMember = "cod_materia";
@@ -107,7 +105,7 @@ namespace AppFacultad
             nvaCarrera.pNombre = Convert.ToString(txtNombreCarrera.Text);
             nvaCarrera.pTitulo = Convert.ToString(txtTitulo.Text);
             
-            oDB.InsetCarreraDetalle("SP_InsertarMaestro","SP_InsertarDetalle", nvaCarrera);
+            AccesoDatos.ObtenerInstancia().InsetCarreraDetalle("SP_InsertarMaestro","SP_InsertarDetalle", nvaCarrera);
             MessageBox.Show("Carrera insertada", "INFORMACION", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
